@@ -1,18 +1,14 @@
-import java.util.Date;
-
-//  startTime "implements" the shiftTime interface
+//  startTime "inherits" the shiftTime class
 public class startTime extends shiftTime {
 
     String timeNeeded = "start";
 
-	// overloading
     public String getUserShiftInfo() {			
 		return super.getUserShiftInfo(timeNeeded);
 	}
 
-    @Override
-	public Date getShiftTime(String timeInput) {
-        return super.getShiftTime(timeInput);
+    public int generateHourInteger(String time) {
+		return super.generateHourInteger(time);
 	}
 }
 

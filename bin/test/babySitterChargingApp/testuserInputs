@@ -1,0 +1,13 @@
+package babySitterChargingApp;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class inputTest {
+    @Test public void testTimeEnteredIsValid() {
+
+        
+        
+        assertNotNull("app should have a greeting", classUnderTest.getGreeting());
+    }
+}
