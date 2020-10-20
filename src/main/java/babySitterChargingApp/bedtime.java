@@ -1,3 +1,5 @@
+package babySitterChargingApp;
+
 //  bedTime "inherits" the shiftTime class
 public class bedTime extends shiftTime {
 
