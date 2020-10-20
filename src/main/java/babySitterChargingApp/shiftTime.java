@@ -12,9 +12,16 @@ abstract class shiftTime {
     // both startTime and endTime classes without instantiating this class obj
 
     public String timeRecieved;
-    private String pattern = "h:mm a"; 	
-    Date time = new Date();
-    Scanner userInput = new Scanner(System.in); 
+    private String pattern = "h:mm a";
+    private Date time;
+    private Scanner userInput;
+
+
+    public shiftTime() {
+        this.time = new Date();
+        this.userInput = new Scanner(System.in);
+
+    }
 
     // due to this being a kata that has no realworld application 
     // and is for demonstration purposes, I elected to use the 
@@ -26,9 +33,14 @@ abstract class shiftTime {
 	// establish start of shift, end of shift, and what if at all 
 	// when the child(s) went to bed.
 	public String getUserShiftInfo(String timeInput) {	
-    
+        System.out.println("Sorry, couldn't understand you!");
         System.out.println("Enter " + timeInput + " time: "); 
-        timeRecieved = userInput.nextLine();
+        while (userInput.hasNextLine()) {
+            timeRecieved = userInput.next();
+        userInput.close();
+        System.out.println("Sorry, couldn't understand you!");
+        }
+        
         String regex = "\\d?\\d:\\d\\d\\s.([.mM])";
         Pattern regexPattern = Pattern.compile(regex);
         Matcher matcher = regexPattern.matcher(timeRecieved);

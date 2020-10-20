@@ -11,6 +11,11 @@ plugins {
     id 'application'
 }
 
+apply plugin : 'application'
+ext {
+   javaMainClass = 'babySitterChargingApp.App'
+}
+
 repositories {
     // Use JCenter for resolving dependencies.
     jcenter()
