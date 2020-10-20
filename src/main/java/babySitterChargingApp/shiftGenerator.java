@@ -1,6 +1,6 @@
 package babySitterChargingApp;
 
-// import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class shiftGenerator {
@@ -43,7 +43,40 @@ public class shiftGenerator {
     }
 
     public LinkedList<hour> generateShiftWindow(int shiftStart, int shiftBed, int shiftEnd) {
-        // make a list of hours to calculate pay, maybe use a hashmap to iterate through
+        
+        ArrayList<Integer> shiftHours = new ArrayList<Integer>();
+        shiftHours.add(shiftStart);
+        int firstHour = shiftHours.get(0);
+
+        // if bed time is midnight or later we want to change the value of bedtime to >= 24
+        if (shiftBed <= 24 && firstHour < shiftBed) {
+            if (firstHour <= 23 && firstHour >= 17) { //  in case clock in is after midnight for some reason
+                // create hour objects for normal pay
+                // add normal hour objs to linked list
+                for(int i = firstHour; i < shiftBed; i++) {
+                    hour normalPayHour = new hour(i, 12, false);
+                    shiftWindow.add(normalPayHour);
+                }
+            }
+        }
+        if (shiftBed <= 23 && shiftBed > firstHour && shiftBed <= shiftEnd) { // making sure if child is already in bed then all hours before 12 are billed at 8$/hr
+            // create bedtime pay hours
+            // add bedtime hours to linked list after normal hours
+            for(int i = shiftBed; i < shiftEnd; i++) {
+                hour bedTimePayHour = new hour(i, 8, true);
+                shiftWindow.add(bedTimePayHour);
+            }
+        }
+        if (shiftEnd <= 28 && shiftEnd > 24) {
+            // create late night pay hours
+            // add late night hours to linked list after bedtime hours
+            // need to iterate backwards due to disparity in hour numbers given past midnight
+            for(int i = shiftEnd; i >= 25; i--) {
+                hour endTimePayHour = new hour(i, 16, true);
+                shiftWindow.add(endTimePayHour);
+            }
+        }
+
         return shiftWindow;
     }
 

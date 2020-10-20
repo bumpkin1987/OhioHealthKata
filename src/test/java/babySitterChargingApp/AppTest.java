@@ -11,4 +11,12 @@ public class AppTest {
         App classUnderTest = new App();
         assertNotNull("app should have a greeting", classUnderTest.getGreeting());
     }
+
+    // need tests especially for user input validation as the time factor is difficult
+
+    // need tests for the time objs and hours
+
+    // need tests for the generation of shift windows
+
+    // need tests for calculating charge fee and displayin back to user
 }

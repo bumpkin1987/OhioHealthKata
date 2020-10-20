@@ -13,29 +13,29 @@ package babySitterChargingApp;
 public class hour {
 
     int hour, payRate;
- boolean inBed;
+    boolean inBed;
 
 
- public hour(int hour, int payRate, boolean inBed) {
-     this.hour = hour;
-     this.payRate = payRate;
-     this.inBed = inBed;
- }
+    public hour(int hour, int payRate, boolean inBed) {
+        this.hour = hour;
+        this.payRate = payRate;
+        this.inBed = inBed;
+    }
  
- // normal hours pay rate is 12$/hr
- // bedtime hours before midnight is 8$/hr
- // late hours (after midnight) are 16$/hr
- public int getHourlyPayRate() {
+    // normal hours pay rate is 12$/hr
+    // bedtime hours before midnight is 8$/hr
+    // late hours (after midnight) are 16$/hr
+    public int getHourlyPayRate() {
  
-     if (hour <= 28 && hour > 24) {
-         payRate = 16;
-     }
-     else if (hour >= 17 && hour < 24 && inBed == true) {
-         payRate = 8;
-     }
-     else {
-         payRate = 12;
-     }
-     return payRate;
- }
+        if (hour <= 28 && hour > 24) {
+            payRate = 16;
+        }
+        else if (hour >= 17 && hour < 24 && inBed == true) {
+            payRate = 8;
+        }
+        else {
+            payRate = 12;
+        }
+        return payRate;
+    }
 }
