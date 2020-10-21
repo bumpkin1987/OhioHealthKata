@@ -28,6 +28,10 @@ dependencies {
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:29.0-jre'
 }
+// apparentyl gradle makes you explicitly set standardInputs....so there
+run {
+    standardInput = System.in
+}
 
 application {
     // Define the main class for the application.

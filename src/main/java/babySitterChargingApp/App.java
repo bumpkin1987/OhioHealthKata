@@ -7,6 +7,7 @@ public class App {
   
     public static void main(String[] args) {
         ShiftGenerator shift = new ShiftGenerator();
-		shift.generateShift();
-		System.out.println("Thank you for hiring me!");    }
+        shift.generateShift();
+        System.out.println("Thank you for using my app!");
+    }
 }

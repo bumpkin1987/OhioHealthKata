@@ -1,21 +1,32 @@
 package BabySitterChargingApp;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.List;
+
 
 public class ShiftGenerator {
 
     String startingTime, sleepyTime, endingTime;
     int startingHour, bedtimeHour, endingHour;
     int nightlyCharge = 0;
-    LinkedList<Hour> shiftWindow = new LinkedList<Hour>();
+
+    private static final int MIDNIGHT = 24;
+    private static final int NORMAL_PAYRATE = 12;
+    private static final int BEDTIME_PAYRATE = 8;
+    private static final int AFTER_MIDNIGHT_PAYRATE = 16;
+
 
     public void generateShift() {
         getStartTime();
         getBedTime();
         getEndTime();
-        generateShiftWindow(startingHour, bedtimeHour, endingHour);
-        calculateChargeAndDisplay(shiftWindow);
+        if (timeInputsInChronologicalOrder(startingHour, bedtimeHour, endingHour)) {
+            generateNightlyCharge(startingHour, bedtimeHour, endingHour);
+            calculateChargeAndDisplay(nightlyCharge);
+        }
+        else {
+            System.out.println("You must put the times in order.");
+        }
     }
 
     public int getStartTime() {
@@ -42,67 +53,56 @@ public class ShiftGenerator {
         return endingHour;
     }
 
-    public LinkedList<Hour> generateShiftWindow(int shiftStart, int shiftBed, int shiftEnd) {
-        
-        ArrayList<Integer> shiftHours = new ArrayList<Integer>();
-        shiftHours.add(shiftStart);
-        int firstHour = shiftHours.get(0);
-
-        // if bed time is midnight or later we want to change the value of bedtime to >= 24
-        if (shiftBed <= 24 && firstHour < shiftBed) {
-            if (firstHour <= 23 && firstHour >= 17) { //  in case clock in is after midnight for some reason
-                // create hour objects for normal pay
-                // add normal hour objs to linked list
-                for(int i = firstHour; i < shiftBed; i++) {
-                    Hour normalPayHour = new Hour(i, 12, false);
-                    shiftWindow.add(normalPayHour);
+    private boolean timeInputsInChronologicalOrder(int shiftStart, int shiftBed, int shiftEnd) {
+        if (shiftStart == shiftEnd) {
+            return true;
+        }
+        else if (shiftStart < shiftEnd) {
+            if (shiftStart <= shiftBed) {
+                if (shiftBed <= shiftEnd) {
+                    return true;
                 }
             }
-        }
-        if (shiftBed <= 23 && shiftBed > firstHour && shiftBed <= shiftEnd) { // making sure if child is already in bed then all hours before 12 are billed at 8$/hr
-            // create bedtime pay hours
-            // add bedtime hours to linked list after normal hours
-            for(int i = shiftBed; i < shiftEnd; i++) {
-                Hour bedTimePayHour = new Hour(i, 8, true);
-                shiftWindow.add(bedTimePayHour);
+        }   
+        return false;
+    }
+
+    public int generateNightlyCharge(int shiftStart, int shiftBed, int shiftEnd) {
+
+        int beginning = Math.min(shiftStart, MIDNIGHT);
+
+        if (beginning == 24) {
+            return (shiftEnd - shiftStart) * AFTER_MIDNIGHT_PAYRATE;
+        } 
+        else {
+            int afterMidnightRate = 0;
+            int numHoursBeforeBed = Math.min(shiftBed, MIDNIGHT); // grab which ever value is less
+            int numHoursInBedBeforeMidnight = Math.min(MIDNIGHT, shiftEnd); // 
+            int beforeBedRate = (numHoursBeforeBed - shiftStart) * NORMAL_PAYRATE;
+            int afterBedRate = (numHoursInBedBeforeMidnight - numHoursBeforeBed) * BEDTIME_PAYRATE;
+
+            if (shiftEnd >= 24) {
+                afterMidnightRate = (shiftEnd - MIDNIGHT) * AFTER_MIDNIGHT_PAYRATE;
             }
-        }
-        if (shiftEnd <= 28 && shiftEnd > 24) {
-            // create late night pay hours
-            // add late night hours to linked list after bedtime hours
-            // need to iterate backwards due to disparity in hour numbers given past midnight
-            for(int i = shiftEnd; i >= 25; i--) {
-                Hour endTimePayHour = new Hour(i, 16, true);
-                shiftWindow.add(endTimePayHour);
-            }
+            nightlyCharge =  beforeBedRate + afterBedRate + afterMidnightRate;
         }
 
-        return shiftWindow;
+        return nightlyCharge;
     }
 
       // need to convert any hours past midnight for easy calculation of lateHours pay
-      public int convertHoursPastMidnight(int morningHour) {
-        if (morningHour == 0) {
-            morningHour = 24;
+      // whatever morning hour is procesed midnight through 4:00 am we just add 24
+      public int convertHoursPastMidnight(int hourNum) {
+        if (hourNum >= 0 && hourNum <= 4) {
+            hourNum += 24;
         }
-        else if (morningHour > 0 && morningHour <= 4) {
-            morningHour = morningHour + 24;
-        }
-        return morningHour;
+        return hourNum;
     }
 
-    // function to calculate nightly charge. I need an array of hour ojects
-    // to add the payrate values stored in each hour of the shift
-    public void calculateChargeAndDisplay(LinkedList<Hour>  shiftWindow) {
+    public void calculateChargeAndDisplay(int  nightlyCharge) {
 
-        for (Hour hour : shiftWindow) {
-            nightlyCharge += hour.getHourlyPayRate();
-        }
-       
-        // iterate over hours for each hour get the payrate
-        // add all the rates up to get nightly charge
         if (nightlyCharge == 0) {
-            System.out.println("You may have entered times out of order, Try again");
+            System.out.println("You may have entered times out of order, or you didn't work...");
         }
         System.out.println("Charge fee is " + nightlyCharge + "$ dollars.");
     }  
