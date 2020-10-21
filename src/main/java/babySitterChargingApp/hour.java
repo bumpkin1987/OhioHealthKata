@@ -1,4 +1,4 @@
-package babySitterChargingApp;
+package BabySitterChargingApp;
 
 // I chouse to go with an hour class due to the
 // requirements wanting to only bill in whole hour increments. 
@@ -10,13 +10,13 @@ package babySitterChargingApp;
 // other factors which a babysitter could augment such as help in schoolwork,
 // for instance if a babsitter would charge 20 $/hr during the hours they help
 // with school work.
-public class hour {
+public class Hour {
 
     int hour, payRate;
     boolean inBed;
 
 
-    public hour(int hour, int payRate, boolean inBed) {
+    public Hour(int hour, int payRate, boolean inBed) {
         this.hour = hour;
         this.payRate = payRate;
         this.inBed = inBed;

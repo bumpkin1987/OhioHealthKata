@@ -1,4 +1,4 @@
-package babySitterChargingApp;
+package BabySitterChargingApp;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -6,7 +6,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-abstract class shiftTime {
+abstract class ShiftTime {
     // I chose abstract class because
     // I needed to dictate common functionality in
     // both startTime and endTime classes without instantiating this class obj
@@ -17,10 +17,9 @@ abstract class shiftTime {
     private Scanner userInput;
 
 
-    public shiftTime() {
+    public ShiftTime() {
         this.time = new Date();
         this.userInput = new Scanner(System.in);
-
     }
 
     // due to this being a kata that has no realworld application 
@@ -33,14 +32,10 @@ abstract class shiftTime {
 	// establish start of shift, end of shift, and what if at all 
 	// when the child(s) went to bed.
 	public String getUserShiftInfo(String timeInput) {	
-        System.out.println("Sorry, couldn't understand you!");
+   
         System.out.println("Enter " + timeInput + " time: "); 
-        while (userInput.hasNextLine()) {
-            timeRecieved = userInput.next();
-        userInput.close();
-        System.out.println("Sorry, couldn't understand you!");
-        }
-        
+        timeRecieved = userInput.nextLine();
+     
         String regex = "\\d?\\d:\\d\\d\\s.([.mM])";
         Pattern regexPattern = Pattern.compile(regex);
         Matcher matcher = regexPattern.matcher(timeRecieved);
@@ -60,14 +55,14 @@ abstract class shiftTime {
                 timeRecieved = time.toString();                   
             } catch (Exception e) {
                 System.out.println("You must enter a time within the shift window 5:00 pm through 4:00 am.");
-                shiftGenerator shift = new shiftGenerator();
+                ShiftGenerator shift = new ShiftGenerator();
                 shift.generateShift();
             }
         } 
         else {
             // I call the shiftGenerator obj to psuedo restart the app quick and dirty
             System.out.println("Please try again, this time enter input in format of hh:mm and indicate am or pm");
-            shiftGenerator shift = new shiftGenerator();
+            ShiftGenerator shift = new ShiftGenerator();
             shift.generateShift();
         }
         return timeRecieved;

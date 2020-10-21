@@ -1,7 +1,7 @@
-package babySitterChargingApp;
+package BabySitterChargingApp;
 
 //  endTime "inherits" the shiftTime class
-public class endTime extends shiftTime {
+public class EndTime extends ShiftTime {
 
     String timeNeeded = "end";
 

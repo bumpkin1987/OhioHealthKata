@@ -1,14 +1,14 @@
-package babySitterChargingApp;
+package BabySitterChargingApp;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class shiftGenerator {
+public class ShiftGenerator {
 
     String startingTime, sleepyTime, endingTime;
     int startingHour, bedtimeHour, endingHour;
     int nightlyCharge = 0;
-    LinkedList<hour> shiftWindow = new LinkedList<hour>();
+    LinkedList<Hour> shiftWindow = new LinkedList<Hour>();
 
     public void generateShift() {
         getStartTime();
@@ -19,7 +19,7 @@ public class shiftGenerator {
     }
 
     public int getStartTime() {
-        startTime startTime = new startTime();
+        StartTime startTime = new StartTime();
         startingTime = startTime.getUserShiftInfo();
         startingHour = startTime.generateHourInteger(startingTime);
         startingHour = convertHoursPastMidnight(startingHour);
@@ -27,7 +27,7 @@ public class shiftGenerator {
     }
 
     public int getBedTime() {
-        bedTime bedTime = new bedTime();
+        BedTime bedTime = new BedTime();
         sleepyTime = bedTime.getUserShiftInfo();
         bedtimeHour = bedTime.generateHourInteger(sleepyTime);
         bedtimeHour = convertHoursPastMidnight(bedtimeHour);
@@ -35,14 +35,14 @@ public class shiftGenerator {
     }
 
     public int getEndTime() {
-        endTime endTime = new endTime();
+        EndTime endTime = new EndTime();
         endingTime = endTime.getUserShiftInfo();
         endingHour = endTime.generateHourInteger(endingTime);
         endingHour = convertHoursPastMidnight(endingHour);
         return endingHour;
     }
 
-    public LinkedList<hour> generateShiftWindow(int shiftStart, int shiftBed, int shiftEnd) {
+    public LinkedList<Hour> generateShiftWindow(int shiftStart, int shiftBed, int shiftEnd) {
         
         ArrayList<Integer> shiftHours = new ArrayList<Integer>();
         shiftHours.add(shiftStart);
@@ -54,7 +54,7 @@ public class shiftGenerator {
                 // create hour objects for normal pay
                 // add normal hour objs to linked list
                 for(int i = firstHour; i < shiftBed; i++) {
-                    hour normalPayHour = new hour(i, 12, false);
+                    Hour normalPayHour = new Hour(i, 12, false);
                     shiftWindow.add(normalPayHour);
                 }
             }
@@ -63,7 +63,7 @@ public class shiftGenerator {
             // create bedtime pay hours
             // add bedtime hours to linked list after normal hours
             for(int i = shiftBed; i < shiftEnd; i++) {
-                hour bedTimePayHour = new hour(i, 8, true);
+                Hour bedTimePayHour = new Hour(i, 8, true);
                 shiftWindow.add(bedTimePayHour);
             }
         }
@@ -72,7 +72,7 @@ public class shiftGenerator {
             // add late night hours to linked list after bedtime hours
             // need to iterate backwards due to disparity in hour numbers given past midnight
             for(int i = shiftEnd; i >= 25; i--) {
-                hour endTimePayHour = new hour(i, 16, true);
+                Hour endTimePayHour = new Hour(i, 16, true);
                 shiftWindow.add(endTimePayHour);
             }
         }
@@ -93,9 +93,9 @@ public class shiftGenerator {
 
     // function to calculate nightly charge. I need an array of hour ojects
     // to add the payrate values stored in each hour of the shift
-    public void calculateChargeAndDisplay(LinkedList<hour>  shiftWindow) {
+    public void calculateChargeAndDisplay(LinkedList<Hour>  shiftWindow) {
 
-        for (hour hour : shiftWindow) {
+        for (Hour hour : shiftWindow) {
             nightlyCharge += hour.getHourlyPayRate();
         }
        

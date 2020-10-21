@@ -1,14 +1,14 @@
-babySitterChargingApp/App.java
- babySitterChargingApp.App
-babySitterChargingApp/shiftGenerator.java
- babySitterChargingApp.shiftGenerator
-babySitterChargingApp/hour.java
- babySitterChargingApp.hour
-babySitterChargingApp/bedTime.java
- babySitterChargingApp.bedTime
-babySitterChargingApp/shiftTime.java
- babySitterChargingApp.shiftTime
-babySitterChargingApp/endTime.java
- babySitterChargingApp.endTime
-babySitterChargingApp/startTime.java
- babySitterChargingApp.startTime
+BabySitterChargingApp/Hour.java
+ BabySitterChargingApp.Hour
+BabySitterChargingApp/BedTime.java
+ BabySitterChargingApp.BedTime
+BabySitterChargingApp/ShiftGenerator.java
+ BabySitterChargingApp.ShiftGenerator
+BabySitterChargingApp/App.java
+ BabySitterChargingApp.App
+BabySitterChargingApp/ShiftTime.java
+ BabySitterChargingApp.ShiftTime
+BabySitterChargingApp/StartTime.java
+ BabySitterChargingApp.StartTime
+BabySitterChargingApp/EndTime.java
+ BabySitterChargingApp.EndTime
